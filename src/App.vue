@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted } from 'vue'
 
-//import pic1 from './assets/vue.svg' 引入单张图片方法
+//import pic1 from './assets/vue.svg' 引入单张图片方法\
+
 import { Map, View, Feature, Overlay } from 'ol'
 import { Tile, Vector as layerVector } from 'ol/layer'
 import TileLayer from 'ol/layer/Tile'
