@@ -77,6 +77,10 @@ const initMap = () => {
     label: '\u00AB',
     collapsed: false,
   })
+
+
+
+  
   //比例尺
   const scaleBarOptionsContainer = document.getElementById('scaleBarOptions');
   const unitsSelect = document.getElementById('units');
@@ -105,6 +109,7 @@ const initMap = () => {
     return scacontrol;
   }
 
+  
   //功能
 
   //标注
@@ -183,6 +188,7 @@ const initMap = () => {
       return style
     }
   })
+
   //绘图
 
   const drawSource = new VectorSource();
@@ -602,7 +608,6 @@ const initMap = () => {
         }
         else map.removeOverlay(overlay)
         break
-
       default: break
     }
   })
@@ -697,7 +702,7 @@ const initMap = () => {
     const t = e.target
     switch (t.id) {
       case 'geojson':
-        if (d == 0) {
+        if (d === 0) {
           map.addLayer(geoVectorLayer)
           d = 1
         } else {
