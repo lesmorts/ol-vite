@@ -77,6 +77,7 @@ const initMap = () => {
     label: '\u00AB',
     collapsed: false,
   })
+  
   //比例尺
   const scaleBarOptionsContainer = document.getElementById('scaleBarOptions');
   const unitsSelect = document.getElementById('units');
