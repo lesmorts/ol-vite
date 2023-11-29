@@ -602,7 +602,6 @@ const initMap = () => {
         }
         else map.removeOverlay(overlay)
         break
-
       default: break
     }
   })
