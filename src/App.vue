@@ -104,7 +104,6 @@ const initMap = () => {
     }
     return scacontrol;
   }
-
   //功能
 
   //标注
@@ -183,7 +182,7 @@ const initMap = () => {
       return style
     }
   })
-  
+
   //绘图
 
   const drawSource = new VectorSource();
