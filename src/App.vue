@@ -183,6 +183,7 @@ const initMap = () => {
       return style
     }
   })
+  
   //绘图
 
   const drawSource = new VectorSource();
@@ -696,7 +697,7 @@ const initMap = () => {
     const t = e.target
     switch (t.id) {
       case 'geojson':
-        if (d == 0) {
+        if (d === 0) {
           map.addLayer(geoVectorLayer)
           d = 1
         } else {
