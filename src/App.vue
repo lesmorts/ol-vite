@@ -6,10 +6,11 @@ import { onMounted } from 'vue'
 import { Map, View, Feature, Overlay } from 'ol'
 import { Tile, Vector as layerVector } from 'ol/layer'
 import TileLayer from 'ol/layer/Tile'
-import { OSM, Vector as sourceVector, Cluster } from 'ol/source'
+import { OSM, Vector as sourceVector, Cluster, XYZ } from 'ol/source'
 import { Point, MultiPoint, LineString, Circle } from 'ol/geom'
 import BingMaps from 'ol/source/BingMaps'
 import { createStringXY, toStringHDMS } from 'ol/coordinate'
+import { transform as transformCoord } from 'ol/proj'
 import {
   DragRotateAndZoom,
   Draw,
@@ -48,14 +49,15 @@ const initMap = () => {
   const zoomslider = new ZoomSlider()
   const fullScreen = new FullScreen()
   const zoomtoextent = new ZoomToExtent({
-    extent: [813079.7791264898, 5929220.284081122, 848966.9639063801,
-      5936863.986909639,
+    //前两个为左下角坐标，后两个为右上角坐标
+    extent: [
+      15437211, 4210102,
+      15450282, 4217104,
     ],
   })
 
   const mousePositionControl = new MousePosition({
     coordinateFormat: createStringXY(4),
-    
     className: 'custom-mouse-position',
     target: document.getElementById('mouse-position'),
   })
@@ -80,7 +82,7 @@ const initMap = () => {
 
 
 
-  
+
   //比例尺
   const scaleBarOptionsContainer = document.getElementById('scaleBarOptions');
   const unitsSelect = document.getElementById('units');
@@ -109,7 +111,7 @@ const initMap = () => {
     return scacontrol;
   }
 
-  
+
   //功能
 
   //标注
@@ -386,7 +388,9 @@ const initMap = () => {
     target: 'map',
     layers: [
       new Tile({
-        source: new OSM()
+        source: new XYZ({
+          url: 'http://webst0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}'
+        })
       }),
       new Tile({
         source: new BingMaps({
@@ -396,7 +400,7 @@ const initMap = () => {
         visible: false
       }),
       drawVector,
-      
+
     ],
     controls: defaultControls({ attribution: false }).extend([
       overviewMapControl,
@@ -411,8 +415,8 @@ const initMap = () => {
     ]),
     overlays: [airport, marker],
     view: new View({
-      
-      center: [13526041.708072895 , 3664472.687460804],
+
+      center: [12673524.3542, 2587385.6452],
       rotation: -Math.PI / 8,
       zoom: 12.5,
       maxZoom: 18,
@@ -602,7 +606,13 @@ const initMap = () => {
           map.on('singleclick', function (evt) {
             const coordinate = evt.coordinate
             const hdms = toStringHDMS(toLonLat(coordinate))
-            popContent.innerHTML = `<p>You clicked here:</p><code>` + hdms + `</code>`
+            const stringifyFunc = createStringXY(1)
+            const espg3=stringifyFunc(coordinate).toString()
+            const espg4=stringifyFunc(transformCoord(coordinate,'EPSG:3857','EPSG:4326')).toString();
+            popContent.innerHTML =
+             `<p>You clicked here:</p>
+             lon&lat: <code>` + hdms + `</code><br>
+             coord: <br><code>`+espg3+`</code>/`+`<code>`+espg4+`</code>`
             overlay.setPosition(coordinate)
           })
         }
@@ -730,19 +740,21 @@ onMounted(() => { initMap() })
       <a href="https://www.szairport.com/" class="overlay" id="airport" target="_blank">机场</a>
       <div id="marker" title="Marker"></div>
     </div>
-    <div id="mouse-position"></div>
+
 
     <div id="controls">
       <form id="Projection">
         <span>坐标：</span>
         <label for="projection">Projection </label>
         <select id="projection">
-          <option value="EPSG:4326">EPSG:4326</option>
           <option value="EPSG:3857">EPSG:3857</option>
+          <option value="EPSG:4326">EPSG:4326</option>
         </select>
-        <label for="precision">Precision</label>
+        <label for="precision">Precision </label>
         <input id="precision" type="number" min="0" max="12" value="4" />
-      </form><br>
+      </form>
+      <div id="mouse-position"></div>
+      <br>
 
       <div id="Overview">
         <span>鹰眼：</span>
@@ -780,8 +792,8 @@ onMounted(() => { initMap() })
 
       <div id="mapSwitch">
         <span>图层：</span>
-        <a href="#" id="normal">地图</a>
-        <a href="#" id="mix">混合</a>
+        <a href="#" id="normal">标注</a>
+        <a href="#" id="mix">卫星</a>
       </div><br>
 
       <div id="showFeature">
@@ -812,7 +824,7 @@ onMounted(() => { initMap() })
 <style scoped>
 .map {
   width: 100%;
-  height: 780px;
+  height: 770px;
 }
 
 #controls {

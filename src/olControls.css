@@ -18,6 +18,8 @@ body {
     top: 3em;
 }
 
+
+
 /*Right*/
 
 /*FullScreen*/
@@ -145,7 +147,7 @@ input[type=range] {
 
 /*ZoomToExtent*/
 .ol-zoom-extent {
-    top: 17em;
+    top: 35%;
     left: .5em;
 }
 
