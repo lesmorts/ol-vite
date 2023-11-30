@@ -1,3 +1,3 @@
-# Vite+Openplayer
+# Vite+Openlayer
 
-a demo for learning openplayer
+a demo for learning openlayer
