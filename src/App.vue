@@ -77,6 +77,9 @@ const initMap = () => {
     label: '\u00AB',
     collapsed: false,
   })
+
+
+
   
   //比例尺
   const scaleBarOptionsContainer = document.getElementById('scaleBarOptions');
@@ -105,6 +108,8 @@ const initMap = () => {
     }
     return scacontrol;
   }
+
+  
   //功能
 
   //标注
