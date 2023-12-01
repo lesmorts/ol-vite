@@ -730,7 +730,12 @@ onMounted(() => { initMap() })
 </script>
 
 <template>
-  <div class="container">
+  <BaseHeader />
+  
+<div class="main-container">
+  <BaseSide/>
+</div>
+<div class="container">
     <div class="map" id="map"></div>
     <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -740,7 +745,6 @@ onMounted(() => { initMap() })
       <a href="https://www.szairport.com/" class="overlay" id="airport" target="_blank">机场</a>
       <div id="marker" title="Marker"></div>
     </div>
-
 
     <div id="controls">
       <form id="Projection">
@@ -823,7 +827,10 @@ onMounted(() => { initMap() })
 
 <style scoped>
 .map {
-  width: 100%;
+  float: right;
+  display: block;
+  
+  width: 80%;
   height: 770px;
 }
 
@@ -834,6 +841,7 @@ onMounted(() => { initMap() })
   padding-left: 5px;
   border-radius: 3px;
   height: 400px;
+  display: none;
 }
 
 #controls a {

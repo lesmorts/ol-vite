@@ -9,12 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "element-plus": "^2.4.3",
     "lottie-web": "^5.12.2",
     "ol": "^8.1.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.69.5",
+    "unplugin-auto-import": "^0.17.1",
+    "unplugin-vue-components": "^0.25.2",
     "vite": "^4.4.5"
   }
 }
