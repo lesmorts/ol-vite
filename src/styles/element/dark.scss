@@ -1,0 +1,89 @@
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
+
+/** 自定义黑暗主题 */
+html.dark {
+  // * admin
+  --v-bg-color: rgb(55, 107, 155);
+  --v-main-bg-color: #ecf9ff;
+  --v-border-light: 1px solid #4c4c4d;
+
+  // scroll-bar
+  ::-webkit-scrollbar {
+    background-color: var(--el-scrollbar-bg-color) !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--el-border-color-darker) !important;
+  }
+
+  .layout-sidebar-container {
+    background-color: var(--v-bg-color) !important;
+  }
+
+
+  .fold-unfold {
+    color: #fff !important;
+  }
+
+  .el-menu,
+  .el-sub-menu,
+  .el-menu-item,
+  .el-sub-menu__title {
+    background-color: var(--v-bg-color) !important;
+
+    &:not(.is-active) {
+      color: #ecf5ff !important;
+    }
+
+    &.is-active {
+      color: #409eff !important;
+      background-color: #e9f4ff !important;
+    }
+  }
+
+  .el-menu-item-group__title{
+    color: #b5d6ff;
+  }
+
+  .el-menu-item:not(.is-active):hover {
+    color: var(--v-bg-color)!important;
+    background-color: var(--v-main-bg-color) !important;
+    
+  }
+
+  .nav-bar-container {
+    background-color: var(--v-bg-color) !important;
+  }
+
+  .table-header {
+    .el-icon {
+      color: #fff;
+    }
+  }
+
+  .tabs-bar-container {
+    background-color: var(--v-bg-color) !important;
+    border-top: 1px solid var(--el-border-color-light) !important;
+
+    .tabs-action {
+      .el-icon {
+        color: #fff !important;
+      }
+    }
+
+    .fold-unfold {
+      color: #fff;
+    }
+
+    .el-tabs__item.is-active {
+      color: var(--el-color-primary);
+      background-color: var(--v-main-bg-color) !important;
+
+      .el-icon {
+        color: var(--el-color-primary) !important;
+      }
+    }
+
+  }
+}
+
