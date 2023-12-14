@@ -1,19 +1,7 @@
 <script lang="ts">
-import { createStringXY, toStringHDMS } from 'ol/coordinate'
-import {
-  FullScreen,
-  defaults as defaultControls,
-  ZoomSlider,
-  MousePosition,
-  OverviewMap,
-  ScaleLine,
-  ZoomToExtent
-} from 'ol/control';
-import mousePositionControl from '../HelloWorld.vue';
-import { defineComponent } from 'vue'
+
 import { state } from '../../state/index'
-import { ref, shallowRef } from 'vue'
-import { Sunny, Moon, Check, Close } from '@element-plus/icons-vue'
+import { shallowRef } from 'vue'
 import { toggleDark, isDark } from '../../composables'
 
 export default {
@@ -27,12 +15,13 @@ export default {
       isDark,
       toggleDark,
       isdraw: '',
+      opends:['1'],
     }
   },
   watch: {
     value1: 'toggleDark',
     'state.isDrawMessage': {
-      handler(val, oldVal) {
+      handler(val) {
         this.isdraw = val
       },
       deep: true,
@@ -73,7 +62,7 @@ export default {
 </script>
 
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal" default-active="1" ellipsis="false">
+  <el-menu class="el-menu-demo" mode="horizontal" default-active="opends">
     <el-menu-item index="1">Openplayer-Vite</el-menu-item>
     <el-sub-menu index="2">
       <template #title>图层</template>
@@ -91,7 +80,7 @@ export default {
       <el-sub-menu index="2-3">
         <template #title>BingMap</template>
         <el-menu-item index="2-3-1">街道</el-menu-item>
-        <el-menu-item index="2-3-2" @click="">卫星</el-menu-item>
+        <el-menu-item index="2-3-2">卫星</el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="2-4">
         <template #title>item four</template>
@@ -99,7 +88,7 @@ export default {
         <el-menu-item index="2-4-2">item two</el-menu-item>
       </el-sub-menu>
     </el-sub-menu>
-    <el-switch v-model="value1" class="mt-1" size="large"
+    <el-switch v-model="isDark" @change="toggleDark" class="mt-1" size="large"
       style="--el-switch-on-color:#409eff ; --el-switch-off-color: #bcdbff;top: 13%;" inline-prompt active-text="夜"
       inactive-text="日" />
     <div id="flex-grow"></div>

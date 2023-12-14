@@ -5,8 +5,7 @@ export const state = reactive({
   message: "projection",
   themeMessage: "true",
   drawMessage: "drawOff",
-  measureMessage: "Deafault",
-  isDrawMessage:'',
+  measureMessage: "mOff",
   setMessage(msg: string) {
     this.message = msg;
   },
@@ -32,13 +31,22 @@ export const state = reactive({
       } else if (msg === "circleOn") {
         if (this.drawMessage === "circleOn") this.drawMessage = "circleOff";
         else this.drawMessage = msg;
-      }else this.drawMessage=msg
+      } else this.drawMessage = msg;
     }
   },
   setMesureMessage(msg: string) {
-    this.measureMessage = msg;
+    if (this.measureMessage === "mOff") {
+      this.measureMessage = msg;
+    } else {
+      if (msg === "LineStringOn") {
+        if (this.measureMessage === "LineStringOn")
+          this.measureMessage = "LineStringOff";
+        else this.measureMessage = msg;
+      } else if (msg === "PolygonOn") {
+        if (this.measureMessage === "PolygonOn")
+          this.measureMessage = "PolygonOff";
+        else this.measureMessage = msg;
+      } else this.measureMessage = msg;
+    }
   },
-  setIsDrawMessage(msg:string){
-    this.isDrawMessage=msg
-  }
 });

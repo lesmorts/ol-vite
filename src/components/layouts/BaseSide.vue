@@ -1,6 +1,6 @@
 <template>
   <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
-    @close="handleClose" default-openeds="3" unique-opened="true">
+    @close="handleClose" :default-openeds='opends' :unique-opened="true">
 
     <el-menu-item index="1" @click="toggleCollapse()">
       <el-icon>
@@ -31,8 +31,8 @@
         </el-icon>
         <span>绘图</span>
       </template>
-      <el-menu-item index="3-1" @click="drawMessage('pointOn')">&nbsp&nbsp·&nbsp&nbsp&nbsp点</el-menu-item>
-      <el-menu-item index="3-2" @click="drawMessage('lineOn')">&nbsp&nbsp|&nbsp&nbsp&nbsp线</el-menu-item>
+      <el-menu-item index="3-1" @click="drawMessage('pointOn')">U+00A0U+00A0·U+00A0U+00A0U+00A0点</el-menu-item>
+      <el-menu-item index="3-2" @click="drawMessage('lineOn')">U+00A0U+00A0|U+00A0U+00A0U+00A0线</el-menu-item>
       <el-menu-item index="3-3" @click="drawMessage('polygonOn')"><el-icon>
           <House />
         </el-icon>多边形</el-menu-item>
@@ -48,11 +48,11 @@
         </el-icon>
         <span>测量</span>
       </template>
-      <el-menu-item index="4-1" @click="measureMessage('LineString')">
+      <el-menu-item index="4-1" @click="measureMessage('LineStringOn')">
         <el-icon>
           <SemiSelect />
         </el-icon>距离</el-menu-item>
-      <el-menu-item index="4-2" @click="measureMessage('Polygon')">
+      <el-menu-item index="4-2" @click="measureMessage('PolygonOn')">
         <el-icon>
           <FullScreen />
         </el-icon>面积</el-menu-item>
@@ -69,18 +69,18 @@
 <script lang="ts">
 import { ref, } from "vue";
 
-import { Circle } from "ol/geom";
 
 import { state } from '../../state'
 
 export default {
-  name: 'Side',
+  name: 'baseSide',
   props: {},
   data() {
     return {
       isCollapse: ref(true),
       layerFlag: 'BingStateLayer',
       state,
+      opends:[2],
     };
   },
   mounted() {
@@ -108,7 +108,6 @@ export default {
     },
 
   },
-  components: { Circle }
 }
 </script>
 

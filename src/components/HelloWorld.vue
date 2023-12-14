@@ -1,28 +1,18 @@
 <script>
-import { ref, onMounted, defineComponent, watch } from 'vue'
 import { state } from '../state/index'
-import { WindLayer } from 'ol-wind'
 
 import { Map, Overlay, View } from 'ol'
-import { BingMaps, OSM, XYZ, Vector as VectorSource } from 'ol/source'
-import { Point, MultiPoint, LineString, Polygon, Circle } from 'ol/geom'
-import { getCenter, getHeight, getWidth } from 'ol/extent'
+import { BingMaps, XYZ, Vector as VectorSource } from 'ol/source'
+import { LineString, Polygon } from 'ol/geom'
 import { createStringXY, toStringHDMS } from 'ol/coordinate'
 import TileLayer from 'ol/layer/Tile'
 import { toLonLat, transform as transformCoord } from 'ol/proj'
-import { Style, Text, Fill, Circle as CircleStyle, Stroke } from 'ol/style'
+import { Style,Fill, Circle as CircleStyle, Stroke } from 'ol/style'
 import VectorLayer from 'ol/layer/Vector'
 import { getArea, getLength } from 'ol/sphere.js';
+import { unByKey } from 'ol/Observable'
 import {
-  never,
-  platformModifierKeyOnly,
-  primaryAction
-} from 'ol/events/condition'
-import {
-  DragRotateAndZoom,
   Draw,
-  Modify,
-  Translate,
   defaults as defaultInteractions,
 } from 'ol/interaction'
 import {
@@ -34,7 +24,17 @@ import {
   ScaleLine,
   ZoomToExtent
 } from 'ol/control';
-import Icon from 'ol/style/Icon'
+
+
+var helpTooltipElement = null
+var mfeature = null;
+var helpTooltip = null;
+
+var measureTooltipElement = null;
+var measureTooltip = null;
+var mlistener = null;
+
+
 
 export default {
   name: 'ol-map',
@@ -83,16 +83,15 @@ export default {
       drwSourse: null,
       drwVector: null,
       //Measure
-      mSourse: null,
-      mVector: null,
-      mStyle: null,
-      mdraw: null,
+      drawLayers: [],
+      drawElements: [],
+      mDraw: null,
 
     }
   },
   watch: {
     'state.overlayMessage': {
-      handler(val, oldVal) {
+      handler(val) {
         if (val === 'on') {
           this.addPopup()
           console.log(`newVal:${val}`)
@@ -109,34 +108,34 @@ export default {
         if (val === 'pointOn') {
           this.map.removeInteraction(this.drwDraw)
           this.addDrawInteraction()
-          state.setIsDrawMessage('取消绘图')
         }
         else if (val === 'lineOn') {
           this.map.removeInteraction(this.drwDraw)
           this.addDrawInteraction()
-          state.setIsDrawMessage('取消绘图')
         } else if (val === 'polygonOn') {
           this.map.removeInteraction(this.drwDraw)
           this.addDrawInteraction()
-          state.setIsDrawMessage('取消绘图')
         } else if (val === 'circleOn') {
           this.map.removeInteraction(this.drwDraw)
           this.addDrawInteraction()
-          state.setIsDrawMessage('取消绘图')
         } else {
           this.map.removeInteraction(this.drwDraw)
-          state.setIsDrawMessage('')
         }
       },
       deep: true,
     },
     'state.measureMessage': {
       handler(val, oldVal) {
-        console.log(`newVal:${val}`)
-        if (val === 'length') {
+        console.log(`newVal:${val} oldVal:${oldVal}`)
+        if (val === 'LineStringOn') {
+          this.map.removeInteraction(this.mDraw)
+          this.Measure()
 
-        } else if (val === 'area') {
-
+        } else if (val === 'PolygonOn') {
+          this.map.removeInteraction(this.mDraw)
+          this.Measure()
+        } else {
+          this.measureCancel()
         }
       },
       deep: true,
@@ -146,9 +145,8 @@ export default {
   mounted() {
     this.initMap()
     //EventBus组件通信
-    const self = this
     this.$bus.on('layerChange', (data) => {
-      self.layers.forEach((item) => {
+      this.layers.forEach((item) => {
         if (item.values_.title === data) {
           item.setVisible(true)
         } else if (item.values_.title !== 'drwVector') {
@@ -158,7 +156,7 @@ export default {
     })
     this.$bus.on('projectionChange', (data) => {
       if (data === 'EPSG:3857' || data === 'EPSG:4326') {
-        self.mousePositionControl.setProjection(data)
+        this.mousePositionControl.setProjection(data)
       }
     })
 
@@ -232,68 +230,6 @@ export default {
       })
       this.layers.push(this.drwVector)
       //Measure
-      this.mSourse = new VectorSource()
-      this.mVector = new VectorLayer({
-        source: this.mSourse,
-        style: {
-          'fill-color': 'rgba(255, 255, 255, 0.2)',
-          'stroke-color': '#ffcc33',
-          'stroke-width': 2,
-          'circle-radius': 7,
-          'circle-fill-color': '#ffcc33',
-        },
-      })
-      let sketch
-      let helpTooltipElement
-      let helpTooltip
-      let measureTooltipElement
-      let measureTooltip
-      const continuePolygonMsg = 'Click to continue drawing the polygon'
-      const continueLineMsg = 'Click to continue drawing the line'
-      const pointerMoveHandler = (evt) => {
-        if (evt.dragging) {
-          return;
-        }
-        let helpMsg = 'Click to start drawing';
-
-        if (sketch) {
-          const geom = sketch.getGeometry();
-          if (geom instanceof Polygon) {
-            helpMsg = continuePolygonMsg;
-          } else if (geom instanceof LineString) {
-            helpMsg = continueLineMsg;
-          }
-        }
-        helpTooltipElement.innerHTML = helpMsg;
-        helpTooltip.setPosition(evt.coordinate);
-
-        helpTooltipElement.classList.remove('hidden');
-      }
-      this.layers.push(this.mVector)
-      this.mStyle = new Style({
-        fill: new Fill({
-          color: 'rgba(255, 255, 255, 0.2)',
-        }),
-        stroke: new Stroke({
-          color: 'rgba(0, 0, 0, 0.5)',
-          lineDash: [10, 10],
-          width: 2,
-        }),
-        image: new CircleStyle({
-          radius: 5,
-          stroke: new Stroke({
-            color: 'rgba(0, 0, 0, 0.7)',
-          }),
-          fill: new Fill({
-            color: 'rgba(255, 255, 255, 0.2)',
-          }),
-        }),
-      })
-
-
-
-
-
 
 
 
@@ -349,7 +285,7 @@ export default {
       this.overlay.setPosition(evt.coordinate)
       popupCloser.onclick = () => {
         this.overlay.setPosition(undefined)
-        closer.blur()
+        popupCloser.blur()
         return false
       }
     },
@@ -379,31 +315,165 @@ export default {
     },
 
     //Measure
-    addMeasure() {
-      this.map.on('pointermove', pointerMoveHandler)
+    Measure() {
+      let value = ''
+      if (state.measureMessage === 'LineStringOn')
+        value = 'LineString'
+      else if (state.measureMessage === 'PolygonOn')
+        value = 'Polygon'
+      let source = new VectorSource()
+      const layer = new VectorLayer({
+        source: source,
+        style: new Style({
+          fill: new Fill({
+            color: 'rgba(66, 161, 255,0.2)',
+          }),
+          stroke: new Stroke({
+            color: 'rgb(66, 161, 255)',
+            width: 4,
+          }),
+          image: new CircleStyle({
+            radius: 7,
+            fill: new Fill({
+              color: 'rgba(66, 161, 255,0.2)',
+            }),
+          }),
+        }),
+      });
+
+      this.map.on('pointermove', this.measureHandler)
+
       this.map.getViewport().addEventListener('mouseout', function () {
         helpTooltipElement.classList.add('hidden');
-      })
+      });
+
+      this.mDraw = new Draw({
+        source,
+        type: value,
+        style: new Style({
+          fill: new Fill({
+            color: 'rgba(66, 161, 255,0.2)',
+          }),
+          stroke: new Stroke({
+            color: 'rgba(0, 0, 0, 0.5)',
+            lineDash: [10, 10],
+            width: 4,
+          }),
+          image: new CircleStyle({
+            radius: 5,
+            stroke: new Stroke({
+              color: 'rgba(66, 161, 255,0.7)',
+            }),
+            fill: new Fill({
+              color: 'rgba(66, 161, 255,0.2)',
+            }),
+          }),
+        }),
+      });
+
+      // 开始绘制
+      this.mDraw.on('drawstart', (evt) => {
+        mfeature = evt.feature;
+
+        let tooltipCoord = evt.coordinate;
+
+        mlistener = mfeature.getGeometry().on('change', function (evt) {
+          const geom = evt.target;
+          let output
+          if (geom instanceof Polygon) {
+            output = formatArea(geom);
+            tooltipCoord = geom.getInteriorPoint().getCoordinates();
+          } else if (geom instanceof LineString) {
+            output = formatLength(geom);
+            tooltipCoord = geom.getLastCoordinate();
+          }
+          tooltipCoord = geom.getLastCoordinate();
+          measureTooltipElement.innerHTML = output;
+          measureTooltip.setPosition(tooltipCoord);
+        });
+      });
+
+      // 双击绘制完成
+      this.mDraw.on('drawend', () => {
+        measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
+        measureTooltip.setOffset([0, -7]);
+        mfeature = null;
+        measureTooltipElement = null;
+        this.createMeasureTooltip();
+        unByKey(mlistener);
+      });
+
+      // 格式化长度
+      const formatLength = function (line) {
+        const length = getLength(line);
+        let output;
+        if (length > 100) {
+          output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
+        } else {
+          output = Math.round(length * 100) / 100 + ' ' + 'm';
+        }
+        return output;
+      };
+      const formatArea = function (polygon) {
+        const area = getArea(polygon);
+        let output;
+        if (area > 10000) {
+          output = Math.round((area / 1000000) * 100) / 100 + ' ' + 'km<sup>2</sup>';
+        } else {
+          output = Math.round(area * 100) / 100 + ' ' + 'm<sup>2</sup>';
+        }
+        return output;
+      };
+
+      this.createHelpTooltip()
+      this.createMeasureTooltip()
+      this.map.addLayer(layer)
+      this.drawLayers.push(layer)
+      this.map.addInteraction(this.mDraw);
     },
-    formatLength(line) {
-      const length = getLength(line);
-      let output;
-      if (length > 100) {
-        output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
-      } else {
-        output = Math.round(length * 100) / 100 + ' ' + 'm';
+    measureHandler(ev) {
+      let helpMsg = '点击开始测量'
+      if (mfeature) {
+        helpMsg = '双击结束测量'
       }
-      return output;
+      helpTooltipElement.innerHTML = helpMsg;
+      helpTooltip.setPosition(ev.coordinate);
+      helpTooltipElement.classList.remove('hidden')
     },
-    formatArea(polygon) {
-      const area = getArea(polygon);
-      let output;
-      if (area > 10000) {
-        output = Math.round((area / 1000000) * 100) / 100 + ' ' + 'km<sup>2</sup>';
-      } else {
-        output = Math.round(area * 100) / 100 + ' ' + 'm<sup>2</sup>';
+    createMeasureTooltip() {
+      if (measureTooltipElement) {
+        measureTooltipElement.parentNode.removeChild(measureTooltipElement);
       }
-      return output;
+      measureTooltipElement = document.createElement('div');
+      measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
+      measureTooltip = new Overlay({
+        element: measureTooltipElement,
+        offset: [0, -15],
+        positioning: 'bottom-center',
+        stopEvent: false,
+        insertFirst: false,
+      });
+      this.drawElements.push(measureTooltip)
+      this.map.addOverlay(measureTooltip);
+    },
+
+    createHelpTooltip() {
+      if (helpTooltipElement) {
+        helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+      }
+      helpTooltipElement = document.createElement('div');
+      helpTooltipElement.className = 'ol-tooltip hidden';
+      helpTooltip = new Overlay({
+        element: helpTooltipElement,
+        offset: [15, 0],
+        positioning: 'center-left',
+      });
+      this.map.addOverlay(helpTooltip);
+    },
+    measureCancel() {
+      helpTooltip.setPosition(undefined)
+      this.map.removeInteraction(this.mDraw)
+      this.map.un('pointermove', this.measureHandler)
     },
 
   },

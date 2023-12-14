@@ -2,19 +2,6 @@
 import HelloWorld from './components/HelloWorld.vue'
 import BaseHeader from './components/layouts/BaseHeader.vue';
 import BaseSide from './components/layouts/BaseSide.vue';
-import { ref, onMounted } from 'vue'
-import { Map, View } from 'ol'
-import Tile from 'ol/layer/Tile'
-import { BingMaps, XYZ } from 'ol/source'
-import {
-  FullScreen,
-  defaults as defaultControls,
-  ZoomSlider,
-  MousePosition,
-  OverviewMap,
-  ScaleLine,
-  ZoomToExtent
-} from 'ol/control';
 import {state} from './state/index'
 
 export default {
