@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 #app {
     width: 100%;
     padding: 0;
@@ -158,11 +159,13 @@ html,body {
     border: 2px solid red;
 }
 
+
 .ol-overviewmap:not(.ol-collapsed) button {
     right: 0;
     bottom: 0;
     left: auto;
 }
+
 
 .ol-overviewmap button{
     width: 26px;
@@ -172,6 +175,7 @@ html,body {
     border-color: #409eff;
     border-width:1px;
 }
+
 
 .map .ol-overviewmap button:hover{
     color: #fff;
