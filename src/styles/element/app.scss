@@ -1,51 +1,60 @@
 #app {
-    overflow: hidden;
     width: 100%;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    overflow: hidden;
     border: 0;
 }
 
-/*MapControls*/
+html,body {
+    width: 100%;
+    padding: 0;
+    margin: 0 !important;
+    overflow: hidden;
+    border: 0;
+  }
 
-/*left*/
+/* MapControls */
 
-/*Zoom*/
+/* left */
+
+/* Zoom */
 #map .ol-zoom .ol-zoom-out {
-    margin-top: 205px;
-    background-color: #ecf5ff;
-    color: #409eff;
-    border-width:1px;
-    border-color: #409eff;
     width: 26px;
     height: 26px;
+    margin-top: 205px;
+    color: #409eff;
+    background-color: #ecf5ff;
+    border-color: #409eff;
+    border-width:1px;
 }
 
 #map .ol-zoom .ol-zoom-in {
-    background-color: #ecf5ff;
-    color: #409eff;
-    border-width:1px;
-    border-color: #409eff;
     width: 26px;
     height: 26px;
+    color: #409eff;
+    background-color: #ecf5ff;
+    border-color: #409eff;
+    border-width:1px;
 }
 
 #map .ol-zoom .ol-zoom-in:hover {
+    color: #fff;
     background-color: #409eff;
-    color: #ffffff;
     border-radius: 4px;
 }
 
 #map .ol-zoom .ol-zoom-out:hover {
+    color: #fff;
     background-color: #409eff;
-    color: #ffffff;
     border-radius: 4px;
 }
 
-/*ZoomSlider*/
+/* ZoomSlider */
 #map .ol-zoomslider {
-    background-color: transparent;
     top: calc(0.5em + 2px + 1px + 1.14 * 1.375em);
+    margin: 1px;
+    background-color: transparent;
 }
 
 #map .ol-touch .ol-zoomslider {
@@ -53,7 +62,7 @@
 }
 
 #map .ol-zoomslider:hover {
-    box-shadow: 0 0 5px rgb(187, 255, 254);
+    box-shadow: 0 0 5px rgb(187 255 254);
 }
 
 #map:focus {
@@ -61,18 +70,20 @@
 }
 
 #map .ol-zoomslider-thumb {
-    height: 26px;
     width: 26px;
+    height: 26px;
     margin: 0;
+    background-color: rgb(202 237 255);
     filter: none;
-    background-color: rgb(202, 237, 255);
     border-radius: 12px;
 }
+
 #map .ol-zoomslider-thumb:hover{
     color: #409eff;
     border-radius: 4px;
 }
-/*ZoomToExtent*/
+
+/* ZoomToExtent */
 .ol-zoom-extent.ol-unselectable.ol-control {
     top: 300px;
     left: .5em;
@@ -80,38 +91,39 @@
 }
 
 .ol-zoom-extent.ol-unselectable.ol-control button {
-    height: 26px;
     width: 26px;
-    background-color: #ecf5ff;
+    height: 26px;
     color: #409eff;
-    border-width:1px;
+    background-color: #ecf5ff;
     border-color: #409eff;
+    border-width:1px;
 }
+
 .ol-zoom-extent.ol-unselectable.ol-control button:hover {
+    color: #fff;
     background-color: #409eff;
-    color: #ffffff;
     border-radius: 4px;
 }
 
-/*Right*/
+/* Right */
 
-/*FullScreen*/
+/* FullScreen */
 .map .ol-full-screen-false {
-    background-color: #ecf5ff;
     color: #409eff;
-    border-width:1px;
+    background-color: #ecf5ff;
     border-color: #409eff;
+    border-width:1px;
 }
 
 .map .ol-full-screen-false:hover {
+    color: #fff;
     background-color: #409eff;
-    color: #ffffff;
     border-radius: 4px;
 }
 
-/*mouse-position*/
+/* mouse-position */
 
-/*Drag, Rotate, and Zoom*/
+/* Drag, Rotate, and Zoom */
 .map .ol-rotate {
     top: 3em;
 }
@@ -121,124 +133,125 @@
 }
 
 .ol-compass {
-    color: rgb(87, 143, 254);
+    color: rgb(87 143 254);
 }
 
 
-/*OverviewControlMap*/
-.map .ol-overviewmap,
-.map .ol-overviewmap.ol-uncollapsible {
-    left: auto;
+/* OverviewControlMap */
+.ol-overviewmap,
+.ol-overviewmap.ol-uncollapsible {
     right: 0;
+    left: auto;
 }
 
-.map .ol-overviewmap:not(.ol-collapsed) {
+.ol-overviewmap:not(.ol-collapsed) {
     border: 1px solid black;
 }
 
-.map .ol-overviewmap .ol-overviewmap-map {
-    border: none;
-    height: 200px;
+.ol-overviewmap .ol-overviewmap-map {
     width: 300px;
+    height: 200px;
+    border: none;
 }
 
-.map .ol-overviewmap .ol-overviewmap-box {
+.ol-overviewmap .ol-overviewmap-box {
     border: 2px solid red;
 }
 
-.map .ol-overviewmap:not(.ol-collapsed) button {
-    left: auto;
+.ol-overviewmap:not(.ol-collapsed) button {
     right: 0;
     bottom: 0;
+    left: auto;
 }
 
-.map .ol-overviewmap button{
-    background-color: #ecf5ff;
-    color: #409eff;
-    border-width:1px;
-    border-color: #409eff;
+.ol-overviewmap button{
     width: 26px;
     height: 26px;
+    color: #409eff;
+    background-color: #ecf5ff;
+    border-color: #409eff;
+    border-width:1px;
 }
 
 .map .ol-overviewmap button:hover{
+    color: #fff;
     background-color: #409eff;
-    color: #ffffff;
     border-radius: 4px;
 }
 
 .map .ol-overviewmap button:focus{
-    background-color: rgb(66, 161, 255);
-    color: #ffffff;
+    color: #fff;
+    background-color: rgb(66 161 255);
 }
 
 //Overlay
 .ol-popup {
     position: absolute;
-    background-color: #ecf5ff;
-    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #cccccc;
     bottom: 12px;
     left: -50px;
-    width: 290px;
     z-index: -1;
+    width: 290px;
+    padding: 15px;
+    background-color: #ecf5ff;
+    filter: drop-shadow(0 1px 4px rgb(0 0 0 / 20%));
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
-.ol-popup:after{
-    top: 100%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
+
+.ol-popup::after{
     position: absolute;
-    pointer-events: none;
-}
-.ol-popup:after {
-    border-top-color: white;
-    border-width: 10px;
+    top: 100%;
     left: 48px;
+    width: 0;
+    height: 0;
     margin-left: -10px;
+    pointer-events: none;
+    content: " ";
+    border: solid transparent;
+    border-width: 10px;
+    border-top-color: white;
 }
+
+
 
 //measureLineString
 
 .ol-tooltip {
     position: relative;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
-    color: white;
     padding: 4px 8px;
-    white-space: nowrap;
     font-size: 12px;
+    color: white;
+    white-space: nowrap;
     cursor: default;
     user-select: none;
+    background: rgb(0 0 0 / 50%);
+    border-radius: 4px;
   }
 
 .ol-tooltip-measure {
-    opacity: 1;
     font-weight: bold;
+    opacity: 1;
   }
 
   .ol-tooltip.ol-tooltip-static {
-    background-color: #ffffff;
     color: #409eff;
+    background-color: #fff;
     border: 1px solid #409eff;
   }
-  .ol-tooltip-measure:before,
-  .ol-tooltip.ol-tooltip-static:before {
-    border-top: 6px solid rgba(0, 0, 0, 0.5);
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    content: "";
+
+  .ol-tooltip-measure::before,
+  .ol-tooltip.ol-tooltip-static::before {
     position: absolute;
     bottom: -6px;
-    margin-left: -7px;
     left: 50%;
+    margin-left: -7px;
+    content: "";
+    border-top: 6px solid rgb(0 0 0 / 50%);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
   }
 
-  .ol-tooltip.ol-tooltip-static:before {
-    border-top-color: #ffffff;
+  .ol-tooltip.ol-tooltip-static::before {
+    border-top-color: #fff;
   }
 

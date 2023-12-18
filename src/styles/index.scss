@@ -2,13 +2,12 @@
 @use "./element/dark.scss";
 
 :root {
-  font-family: LXGW WenKai GB Screen R, LXGW WenKai Screen, Inter, system-ui,
+  font-family: "LXGW WenKai GB Screen R", "LXGW WenKai Screen", Inter, system-ui,
     Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
-
+  line-height: 1.5;
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -18,8 +17,9 @@ a {
 }
 
 code {
-  border-radius: 2px;
   padding: 2px 4px;
-  background-color: var(--ep-color-primary-light-9);
   color: var(--ep-color-primary);
+  background-color: var(--ep-color-primary-light-9);
+  border-radius: 2px;
 }
+

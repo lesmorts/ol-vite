@@ -1,13 +1,14 @@
 <script>
 import { state } from '../state/index'
 
+
 import { Map, Overlay, View } from 'ol'
 import { BingMaps, XYZ, Vector as VectorSource } from 'ol/source'
 import { LineString, Polygon } from 'ol/geom'
 import { createStringXY, toStringHDMS } from 'ol/coordinate'
 import TileLayer from 'ol/layer/Tile'
 import { toLonLat, transform as transformCoord } from 'ol/proj'
-import { Style,Fill, Circle as CircleStyle, Stroke } from 'ol/style'
+import { Style, Fill, Circle as CircleStyle, Stroke } from 'ol/style'
 import VectorLayer from 'ol/layer/Vector'
 import { getArea, getLength } from 'ol/sphere.js';
 import { unByKey } from 'ol/Observable'
@@ -86,18 +87,17 @@ export default {
       drawLayers: [],
       drawElements: [],
       mDraw: null,
-
     }
   },
   watch: {
     'state.overlayMessage': {
       handler(val) {
         if (val === 'on') {
-          this.addPopup()
-          console.log(`newVal:${val}`)
+          this.map.on('click', this.overlayHandler)
+          console.log(`popup:${val}`)
         } else if (val === 'off') {
           this.removeOverlay()
-          console.log(`newVal:${val}`)
+          console.log(`popup:${val}`)
         }
       },
       deep: true,
@@ -144,6 +144,7 @@ export default {
 
   mounted() {
     this.initMap()
+    this.addPopup()
     //EventBus组件通信
     this.$bus.on('layerChange', (data) => {
       this.layers.forEach((item) => {
@@ -210,7 +211,9 @@ export default {
         rotation: -Math.PI / 8,
         zoom: 12.5,
         maxZoom: 18,
-        minZoom: 5,
+        minZoom: 3,
+
+        
       })
 
 
@@ -230,7 +233,6 @@ export default {
       })
       this.layers.push(this.drwVector)
       //Measure
-
 
 
 
@@ -268,7 +270,7 @@ export default {
         }
       })
       this.map.addOverlay(this.overlay)
-      this.map.on('click', this.overlayHandler)
+
     },
     overlayHandler(evt) {
       var popupCloser = document.getElementById("popup-closer")
@@ -475,7 +477,9 @@ export default {
       this.map.removeInteraction(this.mDraw)
       this.map.un('pointermove', this.measureHandler)
     },
-
+    getGeoJSON(name) {
+      return new URL(`./assets/${name}.json`, import.meta.url).href
+    }
   },
 }
 
@@ -484,7 +488,7 @@ export default {
 <template>
   <div class="map" id="map"></div>
   <div id="popup" class="ol-popup">
-    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <a href="#" id="popup-closer" class="ol-popup-closer">X</a>
     <div id="popup-content" class="popup-content"></div>
   </div>
 </template>
@@ -496,16 +500,16 @@ export default {
 }
 
 #popup {
+  padding: 0 9px;
   color: #4094ff;
   background: #ecf5ff;
-  padding: 0px 9px;
   border-radius: 6px;
 }
 
 #popup-closer {
   position: absolute;
-  text-decoration: none;
   right: 8px;
+  text-decoration: none;
   content: none;
 }
 

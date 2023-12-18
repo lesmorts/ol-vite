@@ -1,6 +1,6 @@
 <template>
-  <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
-    @close="handleClose" :default-openeds='opends' :unique-opened="true">
+  <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen" @close="handleClose"
+    :default-openeds='opends' :unique-opened="true">
 
     <el-menu-item index="1" @click="toggleCollapse()">
       <el-icon>
@@ -31,8 +31,8 @@
         </el-icon>
         <span>绘图</span>
       </template>
-      <el-menu-item index="3-1" @click="drawMessage('pointOn')">U+00A0U+00A0·U+00A0U+00A0U+00A0点</el-menu-item>
-      <el-menu-item index="3-2" @click="drawMessage('lineOn')">U+00A0U+00A0|U+00A0U+00A0U+00A0线</el-menu-item>
+      <el-menu-item index="3-1" @click="drawMessage('pointOn')">&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;点</el-menu-item>
+      <el-menu-item index="3-2" @click="drawMessage('lineOn')">&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;线</el-menu-item>
       <el-menu-item index="3-3" @click="drawMessage('polygonOn')"><el-icon>
           <House />
         </el-icon>多边形</el-menu-item>
@@ -57,7 +57,47 @@
           <FullScreen />
         </el-icon>面积</el-menu-item>
     </el-sub-menu>
-    <el-menu-item index="5">
+    <el-sub-menu index="5">
+      <template #title>
+        <el-icon>
+          <Memo />
+        </el-icon>
+        <span>
+          高级功能
+        </span>
+      </template>
+      <el-menu-item index="5-1">
+        <el-icon>
+          <SemiSelect />
+        </el-icon>
+        投影转换
+      </el-menu-item>
+      <el-menu-item index="5-2">
+        <el-icon>
+          <FullScreen />
+        </el-icon>
+        定位导航
+      </el-menu-item>
+      <el-menu-item index="5-3">
+        <el-icon>
+          <FullScreen />
+        </el-icon>
+        热点图
+      </el-menu-item>
+      <el-menu-item index="5-4">
+        <el-icon>
+          <FullScreen />
+        </el-icon>
+        热区图
+      </el-menu-item>
+      <el-menu-item index="5-5">
+        <el-icon>
+          <FullScreen />
+        </el-icon>
+        统计图
+      </el-menu-item>
+    </el-sub-menu>
+    <el-menu-item index="6">
       <el-icon>
         <Setting />
       </el-icon>
@@ -80,7 +120,7 @@ export default {
       isCollapse: ref(true),
       layerFlag: 'BingStateLayer',
       state,
-      opends:[2],
+      opends: [2],
     };
   },
   mounted() {
@@ -111,6 +151,8 @@ export default {
 }
 </script>
 
-<style scoped>.flex-grow {
+<style scoped>
+.flex-grow {
   width: 5%;
-}</style>
+}
+</style>

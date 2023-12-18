@@ -2,8 +2,16 @@
 
 /** 自定义黑暗主题 */
 html.dark {
+  width: 100%;
+  padding: 0;
+  margin: 0 !important;
+  overflow: hidden;
+  color: #b5d6ff;
+  background-color: var(--v-bg-color);
+  border: 0;
+
   // * admin
-  --v-bg-color: rgb(55, 107, 155);
+  --v-bg-color: rgb(55 107 155);
   --v-main-bg-color: #ecf9ff;
   --v-border-light: 1px solid #4c4c4d;
 
@@ -28,8 +36,10 @@ html.dark {
   .el-menu,
   .el-sub-menu,
   .el-menu-item,
-  .el-sub-menu__title {
-    background-color: var(--v-bg-color) !important;
+  .el-sub-menu__title,
+  .el-menu-item-group__title {
+    color: #b5d6ff;
+    background-color: var(--v-bg-color);
 
     &:not(.is-active) {
       color: #ecf5ff !important;
@@ -41,9 +51,6 @@ html.dark {
     }
   }
 
-  .el-menu-item-group__title{
-    color: #b5d6ff;
-  }
 
   .el-menu-item:not(.is-active):hover {
     color: var(--v-bg-color)!important;
