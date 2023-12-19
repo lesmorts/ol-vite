@@ -21,10 +21,8 @@ export default {
     
   },
   unmounted() {
-
   },
   methods: {
-    
   },
 }
 </script>
