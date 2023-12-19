@@ -1,12 +1,17 @@
 <template>
   <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen" @close="handleClose"
-    :default-openeds='opends' :unique-opened="true">
+     :unique-opened="true">
 
     <el-menu-item index="1" @click="toggleCollapse()">
       <el-icon>
         <DArrowRight />
+      </el-icon> 
+    </el-menu-item>
+    <el-menu-item @click="OverlayChange()">
+      <el-icon>
+        <Location />
       </el-icon>
-
+      <span class="overlay-title">overlay标注</span>
     </el-menu-item>
     <el-sub-menu index="2">
       <template #title>
@@ -146,7 +151,13 @@ export default {
     measureMessage(msg: string) {
       this.state.setMesureMessage(msg)
     },
-
+    OverlayChange() {
+      if (state.overlayMessage === 'off') {
+        state.setOverlayMessage('on')
+      } else {
+        state.setOverlayMessage('off')
+      }
+    },
   },
 }
 </script>

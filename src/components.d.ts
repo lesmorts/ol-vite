@@ -20,5 +20,7 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    OGC: typeof import('./components/OGC.vue')['default']
+    WMTS: typeof import('./components/WMTS.vue')['default']
   }
 }

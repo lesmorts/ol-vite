@@ -38,13 +38,7 @@ export default {
       this.proflag = option
       this.$bus.emit('projectionChange', this.proflag)
     },
-    OverlayChange() {
-      if (state.overlayMessage === 'off') {
-        state.setOverlayMessage('on')
-      } else {
-        state.setOverlayMessage('off')
-      }
-    },
+
     testTheme() {
       if (this.isDark) {
         toggleDark()
@@ -53,6 +47,10 @@ export default {
     offDraw() {
       state.setDrawMessage('off')
     },
+    setWMTSMap(){
+      state.setIsMainMap()
+      state.setISWMTSMap()
+    }
 
   },
 
@@ -67,7 +65,7 @@ export default {
     <el-sub-menu index="2">
       <template #title>OGC资源</template>
       <el-menu-item-group title="加载服务">
-        <el-menu-item index="2-1" >WMTS</el-menu-item>
+        <el-menu-item index="2-1" @click="setWMTSMap();">WMTS案例</el-menu-item>
         <el-menu-item index="2-2" >WMS</el-menu-item>
         <el-menu-item index="2-3" >WFS</el-menu-item>
       </el-menu-item-group>
@@ -82,12 +80,7 @@ top: 13%;" inline-prompt active-text="夜"
     <div id="flex-grow"></div>
     <el-menu-item index="3" @click="offDraw()">
       <span>{{ isdraw }}</span></el-menu-item>
-    <el-menu-item @click="OverlayChange()">
-      <el-icon>
-        <Location />
-      </el-icon>
-      <span class="overlay-title">overlay标注</span>
-    </el-menu-item>
+
 
     <el-sub-menu index="4">
       <template #title>坐标</template>

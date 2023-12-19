@@ -6,6 +6,8 @@ export const state = reactive({
   themeMessage: "true",
   drawMessage: "drawOff",
   measureMessage: "mOff",
+  isMainMap:false,
+  isWMTS:true,
   setMessage(msg: string) {
     this.message = msg;
   },
@@ -49,4 +51,10 @@ export const state = reactive({
       } else this.measureMessage = msg;
     }
   },
+  setIsMainMap(){
+    this.isMainMap=!this.isMainMap
+  },
+  setISWMTSMap(){
+    this.isWMTS=!this.isWMTS
+  }
 });

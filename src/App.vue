@@ -12,7 +12,9 @@ export default {
   },
   data() {
     return {
-      state
+      state,
+      isMainMap:true,
+      isWMTS:false,
     }
   },
   mounted() {
@@ -34,11 +36,10 @@ export default {
         <BaseHeader></BaseHeader>
       </el-header>
       <el-container class="main-container">
-        <el-aside style="width: auto;">
           <BaseSide class="baseSide"></BaseSide>
-        </el-aside>
         <el-main style="padding: 0;">
-          <HelloWorld></HelloWorld>
+          <HelloWorld v-if="state.isMainMap"></HelloWorld>
+          <WMTS v-if="state.isWMTS"></WMTS>
         </el-main>
       </el-container>
     </el-container>
@@ -56,7 +57,9 @@ export default {
 }
 
 .el-container {
+  display: flex;
   width: 100%;
   height: 100%;
 }
+
 </style>
