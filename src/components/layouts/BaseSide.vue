@@ -5,13 +5,13 @@
     <el-menu-item index="1" @click="toggleCollapse()">
       <el-icon>
         <DArrowRight />
-      </el-icon>0 
+      </el-icon>
     </el-menu-item>
     <el-menu-item @click="OverlayChange()">
       <el-icon>
         <Location />
       </el-icon>
-      <span class="overlay-title">Overlay标注</span>
+      <template #title>Overlay标注</template>
     </el-menu-item>
     <el-sub-menu index="2">
       <template #title>

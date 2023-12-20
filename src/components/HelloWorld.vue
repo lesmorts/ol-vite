@@ -212,8 +212,6 @@ export default {
         zoom: 12.5,
         maxZoom: 18,
         minZoom: 3,
-
-        
       })
 
 
