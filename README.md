@@ -9,4 +9,4 @@ npm install
 npm run dev
 ```
 
- Website using gitPage:[]([Openplayer-vite (lesmorts.github.io)](https://lesmorts.github.io/))
+ Website using gitPage:[OpenLayers-Vite](https://lesmorts.github.io/)
