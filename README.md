@@ -1,6 +1,12 @@
+# OpenLayers-Vite-Element+
 
-# Vue 3 + Vite
+a demo for learning WebGIS with OpenLayers using vite.
 
-a demo for learning openlayer, use Vite and element+
+## Getting Started
 
+```
+npm install
+npm run dev
+```
 
+ Website using gitPage:[]([Openplayer-vite (lesmorts.github.io)](https://lesmorts.github.io/))
